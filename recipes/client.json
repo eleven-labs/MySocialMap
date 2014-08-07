@@ -1,0 +1,7 @@
+{
+    "name": "app.js",
+    "path": "web/js/",
+    "files": [
+        "src/client/**/**/*.js"
+    ]
+}

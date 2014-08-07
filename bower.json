@@ -1,0 +1,25 @@
+{
+  "name": "socialmap",
+  "version": "1.0.0",
+  "description": "Your map social",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Jonathan Jalouzot",
+      "email": "jalouz.j@gmail.com"
+    }
+  ],
+  "main": "dist/socialmap.min.js",
+  "dependencies": {
+    "bootstrap": "~3.2.*",
+    "angular": "~1.2.*",
+    "angular-route": "~1.2.*",
+    "angular-google-maps": "~1.2.*",
+    "angular-file-upload": "~1.0.*"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ]
+}

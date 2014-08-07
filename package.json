@@ -1,7 +1,24 @@
 {
-  "name": "socialmap",
+  "name": "MySocialMap",
   "version": "1.0.0",
   "description": "Your map social",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eleven-labs/MySocialMap.git"
+  },
+  "scripts": {
+    "build": "gulp",
+    "server": "gulp launch-server",
+    "client": "gulp launch-client"
+  },
+  "keywords": [
+    "angularjs",
+    "googlemaps",
+    "nodejs",
+    "expressjs",
+    "gulp",
+    "bower"
+  ],
   "license": "MIT",
   "contributors": [
     {

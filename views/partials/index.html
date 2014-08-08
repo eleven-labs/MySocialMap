@@ -1,20 +1,28 @@
 <div class="panel panel-primary" style="position:absolute;z-index:9000;right:0">
     <div class="panel-heading">
-        <h3 class="panel-title">Upload File</h3>
+        <h3 class="panel-title">Ajouter votre image</h3>
     </div>
     <div class="panel-body">
+        <h4>1 - Cliquez sur la carte pour choisir un point</h4>
+        <h4> OU recherchez une adresse</h4>
+        <div class="form-group">
+             <input type="text" id="Autocomplete" class="form-control" ng-autocomplete ng-model="adress" details="details" />
+        </div>
+        <button type="button" class="btn btn-primary" ng-click='searchMap()'>Rechercher</button>
         <input type="hidden" ng-model="lat">
         <input type="hidden" ng-model="lon">
+
+        <h4>2 - Uploadez votre image à mettre sur la carte</h4>
         <input type="file" nv-file-select="" uploader="uploader" />
+        <br/>
         <div>
             <div>
-                Queue progress:
                 <div class="progress" style="">
                     <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
                 </div>
             </div>
             <button type="button" class="btn btn-success btn-s" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
-                <span class="glyphicon glyphicon-upload"></span> Upload all
+                <span class="glyphicon glyphicon-upload"></span> Envoyer
             </button>
         <!--    <button type="button" class="btn btn-warning btn-s" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading">
                 <span class="glyphicon glyphicon-ban-circle"></span> Cancel all

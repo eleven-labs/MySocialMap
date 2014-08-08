@@ -5,6 +5,32 @@ function HomeController($scope, $http, FileUploader) {
         url: 'file-upload'
     });
     
+    $scope.searchMap = function() {
+        $scope.map = {
+            center: {
+                latitude: $scope.details.geometry.location.lat(),
+                longitude: $scope.details.geometry.location.lng()
+            },
+            zoom: 15,
+        };
+
+        $scope.marker = {
+            id: 1,
+            coords: {
+                latitude: $scope.details.geometry.location.lat(),
+                longitude: $scope.details.geometry.location.lng()
+            },
+            show: true
+        };
+
+        $scope.lat = $scope.details.geometry.location.lat();
+        $scope.lon = $scope.details.geometry.location.lng();
+    };
+
+    $scope.options1 = null;
+    $scope.details = '';
+    $scope.modd
+
     $scope.markers = [];
     uploader.onCompleteItem = function(fileItem, response, status, headers) {
         $scope.markers.push(
@@ -48,7 +74,7 @@ function HomeController($scope, $http, FileUploader) {
             $scope.marker = {
                 id: 1,
                 coords: {
-                    latitude: position.coords.latitud,
+                    latitude: position.coords.latitude,
                     longitude: position.coords.longitude
                 },
                 show: true

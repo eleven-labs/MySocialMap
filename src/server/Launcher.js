@@ -51,7 +51,6 @@ app.get('/usersList', function(req, res) {
 });
 
 app.post('/save-point', function (req, res) {
-    console.log(req.body);
     var img = new Img({ 
         latitude: req.body.latitude,
         longitude: req.body.longitude,
@@ -75,7 +74,7 @@ app.post('/file-upload', multipartMiddleware, function(req, res) {
             if (err) throw err;
 
             gm(target_path)
-                .resize(100, 100)
+                .resize(75, 75)
                 .write(target_path, function(err) {
                     if (!err) {
                         res.send(req.files.file.originalFilename);

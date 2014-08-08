@@ -2,3 +2,6 @@
 .angular-google-map-container {
   height: 100vh;
 }
+.pac-container{
+  z-index:9999;
+}

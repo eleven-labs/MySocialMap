@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('socialMapApp',['google-maps', 'ngRoute', 'angularFileUpload'])
+angular.module('socialMapApp',['google-maps', 'ngRoute', 'angularFileUpload', 'ngAutocomplete'])
     .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
         $routeProvider.
             when('/', {

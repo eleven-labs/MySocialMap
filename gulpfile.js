@@ -16,6 +16,7 @@ var dependencies = [
     './bower_components/lodash/dist/lodash.underscore.min.js',
     './bower_components/angular-google-maps/dist/angular-google-maps.js',
     './bower_components/angular-file-upload/angular-file-upload.js',
+    './bower_components/ngAutocomplete/src/ngAutocomplete.js',
 ];
 var cssDependencies = [
     './bower_components/bootstrap/dist/css/bootstrap.css',

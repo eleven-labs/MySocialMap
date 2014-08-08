@@ -30,4 +30,4 @@ For launch the client
 gulp launch-client
 ```
 
-After that go to http://localhost:9999
+After that go to http://localhost:9595

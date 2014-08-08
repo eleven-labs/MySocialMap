@@ -42,7 +42,8 @@
     "body-parser": "~1.6.*",
     "connect-multiparty": "~1.1.*",
     "gm": "~1.16.*",
-    "mongoose": "~3.8.*"
+    "mongoose": "~3.8.*",
+    "socket.io": "~1.0.*"
   },
   "scripts": {
     "install": "bower install"

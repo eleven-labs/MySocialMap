@@ -16,7 +16,8 @@
     "angular-route": "~1.2.*",
     "angular-google-maps": "~1.2.*",
     "angular-file-upload": "~1.0.*",
-    "ngAutocomplete": "~1.0.*"
+    "ngAutocomplete": "~1.0.*",
+    "angular-socket-io": "~0.6.0"
   },
   "ignore": [
     "**/.*",

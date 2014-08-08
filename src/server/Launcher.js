@@ -18,6 +18,7 @@ app.use('/images', express.static(__dirname + '/../web/images'));
 app.use('/fonts', express.static(__dirname + '/../web/fonts'));
 
 var server = require('http').Server(app);
+var io = require('socket.io')(server);
 mongoose.connect('mongodb://localhost/testtest');
 // Schemas
 var Schema = mongoose.Schema;
@@ -27,6 +28,13 @@ var imgSchema = new Schema({
     icon:      String
 });
 var Img = mongoose.model('img', imgSchema);
+
+//Socket IO
+io.sockets.on('connection', function (socket) {
+    socket.on('upload', function (data) {
+        io.sockets.emit('update-markers', {id: data.id, lat: data.lat, lon: data.lon, icon: data.icon });
+    });
+});
 
 // Use for angular routing
 app.get('/', function(req, res){

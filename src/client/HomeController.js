@@ -1,6 +1,6 @@
 'use strict';
 
-function HomeController($scope, $http, FileUploader) {
+function HomeController($scope, $http, FileUploader, socket) {
     var uploader = $scope.uploader = new FileUploader({
         url: 'file-upload'
     });
@@ -33,9 +33,10 @@ function HomeController($scope, $http, FileUploader) {
 
     $scope.markers = [];
     uploader.onCompleteItem = function(fileItem, response, status, headers) {
+        var id = $scope.markers.length
         $scope.markers.push(
             {
-              id: $scope.markers.length,
+              id: id,
               latitude: $scope.lat,
               longitude: $scope.lon,
               showWindow: true,
@@ -48,6 +49,8 @@ function HomeController($scope, $http, FileUploader) {
             'longitude': $scope.lon,
             'icon': '/images/' + response
         };
+
+        socket.emit('upload', { id: id, lat: $scope.lat, lon: $scope.lon, icon: '/images/' + response});
 
         $http.post('/save-point', data).success(function(data, status, headers, config) {
           // this callback will be called asynchronously
@@ -130,6 +133,17 @@ function HomeController($scope, $http, FileUploader) {
       // called asynchronously if an error occurs
       // or server returns response with an error status.
         });
+
+    socket.on('update-markers', function (data) {
+        $scope.markers.push(
+        {
+            id: data.id,
+            latitude: data.lat,
+            longitude: data.lon,
+            icon: data.icon
+        });
+    });
+
 
     $scope.events =  {
         click: function (mapModel, eventName, originalEventArgs) {

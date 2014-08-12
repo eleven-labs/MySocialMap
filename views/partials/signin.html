@@ -1,0 +1,15 @@
+<section class="post">
+    <form class="form-horizontal" role="form">
+        <div class="form-group row">
+            <div class="col-md-4">
+                <input type="text" class="form-control" id="inputUsername" placeholder="Username" ng-model="user.username">
+            </div>
+            <div class="col-md-4">
+                <input type="password" class="form-control" id="inputPassword" placeholder="Password" ng-model="user.password">
+            </div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-default" ng-click="signIn(user.username, user.password)">Signin</button>
+            </div>
+        </div>
+    </form>
+</section>

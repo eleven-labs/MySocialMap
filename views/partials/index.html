@@ -1,4 +1,27 @@
-<div class="panel panel-primary" style="position:absolute;z-index:9000;right:0">
+<div class="panel panel-primary" style="position:absolute;z-index:9000;right:0;width:395px;" ng-controller="UserController" >
+    <div class="panel-heading">
+        <h3 class="panel-title">Connecté en tant que : {{ username }}</h3>
+    </div>
+    <div class="panel-body" ng-switch="isAuthenticated">
+         <div ng-switch-when="true" >
+            <ng-include src="'partials/logout.html'"></ng-include>
+        </div>
+        <div ng-switch-default>
+            <ng-switch on="displayregister">
+                <div ng-switch-when="false">
+                    <ng-include src="'partials/signin.html'"></ng-include>
+                    <a ng-click="displayRegister()">Pas encore de compte ?</a>
+                </div>
+                <div ng-switch-default>
+                    <ng-include src="'partials/register.html'"></ng-include>
+                    <a ng-click="displayRegister()">J'ai déjà un compte</a>
+                </div>
+            </ng-switch>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-primary" style="position:absolute;z-index:9000;right:0;top:150px">
     <div class="panel-heading">
         <h3 class="panel-title">Ajouter votre image</h3>
     </div>

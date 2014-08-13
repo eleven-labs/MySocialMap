@@ -1,6 +1,6 @@
 'use strict';
 
-function HomeController($scope, $http, FileUploader, socket) {
+function HomeController($scope, $http, FileUploader, socket, $window, $filter) {
     var uploader = $scope.uploader = new FileUploader({
         url: 'file-upload'
     });
@@ -34,23 +34,32 @@ function HomeController($scope, $http, FileUploader, socket) {
     $scope.markers = [];
     uploader.onCompleteItem = function(fileItem, response, status, headers) {
         var id = $scope.markers.length
+        
+        if ($window.sessionStorage.username === undefined) {
+            var username = 'Anonyme';
+        } else {
+            var username = $window.sessionStorage.username;
+        }
+
         $scope.markers.push(
             {
               id: id,
               latitude: $scope.lat,
               longitude: $scope.lon,
               showWindow: true,
-              icon: '/images/' + response
+              icon: '/images/' + response,
+              username: username
             }
         );
 
         var data = {
             'latitude': $scope.lat,
             'longitude': $scope.lon,
-            'icon': '/images/' + response
+            'icon': '/images/' + response,
+            'username': username
         };
 
-        socket.emit('upload', { id: id, lat: $scope.lat, lon: $scope.lon, icon: '/images/' + response});
+        socket.emit('upload', { id: id, lat: $scope.lat, lon: $scope.lon, icon: '/images/' + response, username: username});
 
         $http.post('/save-point', data).success(function(data, status, headers, config) {
           // this callback will be called asynchronously
@@ -124,10 +133,13 @@ function HomeController($scope, $http, FileUploader, socket) {
                         id: $scope.markers.length,
                         latitude: img.latitude,
                         longitude: img.longitude,
-                        icon: img.icon
+                        icon: img.icon,
+                        username: img.username
                     }
                 );
             });
+
+            $scope.filteredMarkers = $scope.markers;
         }).
         error(function(data, status, headers, config) {
       // called asynchronously if an error occurs
@@ -140,10 +152,17 @@ function HomeController($scope, $http, FileUploader, socket) {
             id: data.id,
             latitude: data.lat,
             longitude: data.lon,
-            icon: data.icon
+            icon: data.icon,
+            username: data.username
         });
     });
 
+    $scope.$watch("searchUsername", function(searchUsername){
+        $scope.filteredMarkers = $filter("filter")($scope.markers, {username: searchUsername});
+        if (!$scope.filteredMarkers){
+            return;
+        }
+    });
 
     $scope.events =  {
         click: function (mapModel, eventName, originalEventArgs) {

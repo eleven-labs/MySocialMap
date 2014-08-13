@@ -30,9 +30,9 @@
     "gulp": "^3.8.*",
     "gulp-concat": "^2.2.*",
     "gulp-jshint": "^1.6.*",
-    "gulp-uglify": "~0.2.1",
+    "gulp-uglify": "~0.3.*",
     "gulp-rename": "^1.2.*",
-    "gulp-util": "^2.2.*",
+    "gulp-util": "^3.0.*",
     "gulp-minify-css": "~0.3.*",
     "gulp-nodemon": "~1.0.*"
   },
@@ -43,7 +43,9 @@
     "connect-multiparty": "~1.1.*",
     "gm": "~1.16.*",
     "mongoose": "~3.8.*",
-    "socket.io": "~1.0.*"
+    "socket.io": "~1.0.*",
+    "express-jwt": "~0.2.*",
+    "jsonwebtoken": "~0.4.*"
   },
   "scripts": {
     "install": "bower install"

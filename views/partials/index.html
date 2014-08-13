@@ -1,4 +1,4 @@
-<div class="panel panel-primary" style="position:absolute;z-index:9000;right:0;width:395px;" ng-controller="UserController" >
+<div class="panel panel-primary" style="position:absolute;z-index:9000;right:10px;width:395px;" ng-controller="UserController" >
     <div class="panel-heading">
         <h3 class="panel-title">Connecté en tant que : {{ username }}</h3>
     </div>
@@ -21,11 +21,21 @@
     </div>
 </div>
 
-<div class="panel panel-primary" style="position:absolute;z-index:9000;right:0;top:150px">
+<div class="panel panel-primary" style="position:absolute;z-index:9000;right:10px;top:150px;width:395px">
+    <div class="panel-heading">
+        <h3 class="panel-title">Search image by username</h3>
+    </div>
+    <div class="panel-body">
+        <input type="test" class="form-control" id="inputSearch" placeholder="Search by username" ng-model="searchUsername">
+    </div>
+</div>
+
+<div class="panel panel-primary" style="position:absolute;z-index:9000;right:10px;top:270px">
     <div class="panel-heading">
         <h3 class="panel-title">Ajouter votre image</h3>
     </div>
     <div class="panel-body">
+        
         <h4>1 - Cliquez sur la carte pour choisir un point</h4>
         <h4> OU recherchez une adresse</h4>
         <div class="form-group">
@@ -59,7 +69,7 @@
 
 <google-map center="map.center" zoom="map.zoom" draggable="true" events="events">
 
-<markers models="markers" coords="'self'" icon="'icon'">
+<markers models="filteredMarkers" coords="'self'" icon="'icon'">
 </markers>
 
 <marker coords='marker.coords'

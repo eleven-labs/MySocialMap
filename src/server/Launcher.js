@@ -27,7 +27,8 @@ var Schema = mongoose.Schema;
 var imgSchema = new Schema({
     latitude:  String,
     longitude: String,
-    icon:      String
+    icon:      String,
+    username:  String
 });
 // User schema
 var User = new Schema({
@@ -53,7 +54,7 @@ var userModel = mongoose.model('User', User);
 //Socket IO
 io.sockets.on('connection', function (socket) {
     socket.on('upload', function (data) {
-        io.sockets.emit('update-markers', {id: data.id, lat: data.lat, lon: data.lon, icon: data.icon });
+        io.sockets.emit('update-markers', {id: data.id, lat: data.lat, lon: data.lon, icon: data.icon, username: data.username });
     });
 });
 
@@ -81,11 +82,12 @@ app.get('/usersList', function(req, res) {
    });
 });
 
-app.post('/save-point', expressjwt({secret: secretToken}), function (req, res) {
+app.post('/save-point', function (req, res) {
     var img = new Img({ 
         latitude: req.body.latitude,
         longitude: req.body.longitude,
-        icon: req.body.icon
+        icon: req.body.icon,
+        username: req.body.username
     });
 
     img.save(function (err) {
@@ -94,7 +96,7 @@ app.post('/save-point', expressjwt({secret: secretToken}), function (req, res) {
     });
 });
 
-app.post('/file-upload', expressjwt({secret: secretToken}), multipartMiddleware, function(req, res) {
+app.post('/file-upload', multipartMiddleware, function(req, res) {
     var tmp_path = req.files.file.path;
     var target_path = path.resolve(__dirname + '/../web/images/' + req.files.file.originalFilename);
 

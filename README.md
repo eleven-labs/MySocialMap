@@ -1,7 +1,7 @@
 MySocialMap
 ===========
 [![Dependency Status](https://david-dm.org/eleven-labs/MySocialMap.svg)](https://david-dm.org/eleven-labs/MySocialMap)
-[![devDependency Status](https://david-dm.org/eleven-labs/MySocialMap.png)](https://david-dm.org/eleven-labs/MySocialMap#info=devDependencies)
+[![devDependency Status](https://david-dm.org/eleven-labs/MySocialMap/dev-status.svg)](https://david-dm.org/eleven-labs/MySocialMap#info=devDependencies)
 
 
 One page web application for display all Foursquare check-ins in google Map, with Photo or Status Facebook/Twitter/Instagram.

@@ -1,6 +1,6 @@
 MySocialMap
 ===========
-
+[![Dependency Status](https://david-dm.org/eleven-labs/MySocialMap.svg)](https://david-dm.org/eleven-labs/MySocialMap)
 [![devDependency Status](https://david-dm.org/eleven-labs/MySocialMap.png)](https://david-dm.org/eleven-labs/MySocialMap#info=devDependencies)
 
 

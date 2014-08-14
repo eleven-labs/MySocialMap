@@ -57,41 +57,21 @@
             <button type="button" class="btn btn-success btn-s" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
                 <span class="glyphicon glyphicon-upload"></span> Envoyer
             </button>
-        <!--    <button type="button" class="btn btn-warning btn-s" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading">
-                <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
-            </button>
-            <button type="button" class="btn btn-danger btn-s" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length">
-                <span class="glyphicon glyphicon-trash"></span> Remove all
-            </button> -->
         </div>
      </div>
 </div>
 
 <google-map center="map.center" zoom="map.zoom" draggable="true" events="events">
+    <markers models="filteredMarkers" coords="'self'" icon="'icon'" click="'onClick'" fit='true' doCluster="true" clusterEvents="clusterEvents">
+        <windows show="'showWindow'"  coords="'self'" closeClick="'closeClick'" ng-cloak>
+            <div ng-non-bindable>
+                <img src="{{ real }}" style="max-width:400px;max-height:400px"/>
+            </div>
+        </windows>
+    </markers>
 
-<markers models="filteredMarkers" coords="'self'" icon="'icon'">
-</markers>
-
-<marker coords='marker.coords'
-    icon='marker.icon' idKey="marker.id">
-</marker>
-
-<!--WINDOWS without markers-->
-<!--NOTICE THEY MUST BE PRIOR TO ANY MARKERS OR THEY WILL ATTACH THEMSELVES walking up the dom tree-->
-<!--
-<window show="infoWindow.show" coords="infoWindow.coords" isIconVisibleOnClick="false" options="infoWindow.options"  ng-cloak>
-    <div>
-        <p>This is an info window at {{ infoWindow.coords.latitude | number:4 }}, {{ infoWindow.coords.longitude | number:4 }}!</p>
-        <div>
-            I should not be attached to a
-            marker.
-
-            <a class="btn" ng-click="clickedButtonInWindow()">CLICK ME</a>
-        </div>
-    </div>
-</window>
--->
-
+    <marker coords='marker.coords' icon='marker.icon' idKey="marker.id">
+    </marker>
 </google-map>
 
 

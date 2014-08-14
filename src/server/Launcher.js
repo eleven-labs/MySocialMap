@@ -28,6 +28,7 @@ var imgSchema = new Schema({
     latitude:  String,
     longitude: String,
     icon:      String,
+    real:      String,
     username:  String
 });
 // User schema
@@ -54,7 +55,7 @@ var userModel = mongoose.model('User', User);
 //Socket IO
 io.sockets.on('connection', function (socket) {
     socket.on('upload', function (data) {
-        io.sockets.emit('update-markers', {id: data.id, lat: data.lat, lon: data.lon, icon: data.icon, username: data.username });
+        io.sockets.emit('update-markers', {id: data.id, lat: data.lat, lon: data.lon, icon: data.icon, username: data.username, real: data.real });
     });
 });
 
@@ -87,6 +88,7 @@ app.post('/save-point', function (req, res) {
         latitude: req.body.latitude,
         longitude: req.body.longitude,
         icon: req.body.icon,
+        real: req.body.real,
         username: req.body.username
     });
 
@@ -99,6 +101,7 @@ app.post('/save-point', function (req, res) {
 app.post('/file-upload', multipartMiddleware, function(req, res) {
     var tmp_path = req.files.file.path;
     var target_path = path.resolve(__dirname + '/../web/images/' + req.files.file.originalFilename);
+    var resize_path = path.resolve(__dirname + '/../web/images/resize/' + req.files.file.originalFilename);
 
     fs.rename(tmp_path, target_path, function(err) {
         if (err) console.log(err);
@@ -108,7 +111,7 @@ app.post('/file-upload', multipartMiddleware, function(req, res) {
 
             gm(target_path)
                 .resize(75, 75)
-                .write(target_path, function(err) {
+                .write(resize_path, function(err) {
                     if (!err) {
                         res.send(req.files.file.originalFilename);
                     } else {

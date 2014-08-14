@@ -4,7 +4,9 @@ function HomeController($scope, $http, FileUploader, socket, $window, $filter) {
     var uploader = $scope.uploader = new FileUploader({
         url: 'file-upload'
     });
-    
+    $scope.filteredMarkers = [];
+    $scope.markers = [];
+
     $scope.searchMap = function() {
         $scope.map = {
             center: {
@@ -31,9 +33,8 @@ function HomeController($scope, $http, FileUploader, socket, $window, $filter) {
     $scope.details = '';
     $scope.modd
 
-    $scope.markers = [];
     uploader.onCompleteItem = function(fileItem, response, status, headers) {
-        var id = $scope.markers.length
+        var id = $scope.filteredMarkers.length + 1;
         
         if ($window.sessionStorage.username === undefined) {
             var username = 'Anonyme';
@@ -41,25 +42,15 @@ function HomeController($scope, $http, FileUploader, socket, $window, $filter) {
             var username = $window.sessionStorage.username;
         }
 
-        $scope.markers.push(
-            {
-              id: id,
-              latitude: $scope.lat,
-              longitude: $scope.lon,
-              showWindow: true,
-              icon: '/images/' + response,
-              username: username
-            }
-        );
-
         var data = {
             'latitude': $scope.lat,
             'longitude': $scope.lon,
-            'icon': '/images/' + response,
+            'icon': '/images/resize/' + response,
+            'real': '/images/' + response,
             'username': username
         };
 
-        socket.emit('upload', { id: id, lat: $scope.lat, lon: $scope.lon, icon: '/images/' + response, username: username});
+        socket.emit('upload', { id: id, lat: $scope.lat, lon: $scope.lon, icon: '/images/resize/' + response, username: username, real: '/images/' + response});
 
         $http.post('/save-point', data).success(function(data, status, headers, config) {
           // this callback will be called asynchronously
@@ -91,17 +82,6 @@ function HomeController($scope, $http, FileUploader, socket, $window, $filter) {
                 },
                 show: true
             };
-         /*   
-            $scope.infoWindow = {
-                coords: {
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude
-                },
-                options: {
-                    disableAutoPan: true
-                },
-                show: true
-            };*/
         });
     } else {
         $scope.error = 'Impossible';
@@ -124,37 +104,67 @@ function HomeController($scope, $http, FileUploader, socket, $window, $filter) {
         show: true
     };
 
-    $http({method: 'GET', url: '/usersList'}).
-        success(function(data, status, headers, config) {
-            var points = data.data;
-            points.forEach(function(img) {
-                $scope.markers.push(
-                    {
-                        id: $scope.markers.length,
-                        latitude: img.latitude,
-                        longitude: img.longitude,
-                        icon: img.icon,
-                        username: img.username
-                    }
-                );
-            });
+    var markerToClose = null;
 
-            $scope.filteredMarkers = $scope.markers;
-        }).
-        error(function(data, status, headers, config) {
-      // called asynchronously if an error occurs
-      // or server returns response with an error status.
+    $scope.onMarkerClicked = function (marker) {
+        markerToClose = marker;
+        marker.showWindow = true;
+        $scope.$apply();
+    };
+
+    $scope.clusterEvents = {
+        click: function (cluster, clusterModels) {
+            window.alert("Cluster Models: clusterModels: " + JSON.stringify(clusterModels));
+        }
+    };
+
+    
+    $scope.usersList = function() {
+        $http({method: 'GET', url: '/usersList'}).
+            success(function(data, status, headers, config) {
+                var points = data.data;
+                var i = 1;
+                var markers = [];
+                points.forEach(function(img) {
+                    markers.push(
+                        {
+                            id: i,
+                            latitude: img.latitude,
+                            longitude: img.longitude,
+                            icon: img.icon,
+                            real: img.real,
+                            showWindow: false,
+                            username: img.username
+                        }
+                    );
+                    i++;
+                });
+
+                $scope.updateMarkers(markers);
+            }).
+            error(function(data, status, headers, config) {
+          // called asynchronously if an error occurs
+          // or server returns response with an error status.
+            });
+    };
+
+    $scope.updateMarkers = function(markers) {
+        _.each(markers, function (marker) {
+            marker.closeClick = function () {
+                marker.showWindow = false;
+                $scope.$apply();
+            };
+            marker.onClick = function () {
+                $scope.onMarkerClicked(marker);
+            };
         });
+
+        $scope.filteredMarkers = markers;
+        $scope.markers = markers;
+    };
 
     socket.on('update-markers', function (data) {
-        $scope.markers.push(
-        {
-            id: data.id,
-            latitude: data.lat,
-            longitude: data.lon,
-            icon: data.icon,
-            username: data.username
-        });
+        $scope.usersList();
     });
 
     $scope.$watch("searchUsername", function(searchUsername){
@@ -184,4 +194,6 @@ function HomeController($scope, $http, FileUploader, socket, $window, $filter) {
             $scope.$apply();
         }
     };
+
+    $scope.usersList();
 }

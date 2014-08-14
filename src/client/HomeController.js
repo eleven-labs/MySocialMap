@@ -5,6 +5,7 @@ function HomeController($scope, $http, FileUploader, socket, $window, $filter) {
         url: 'file-upload'
     });
     $scope.filteredMarkers = [];
+    $scope.markers = [];
 
     $scope.searchMap = function() {
         $scope.map = {
@@ -32,7 +33,6 @@ function HomeController($scope, $http, FileUploader, socket, $window, $filter) {
     $scope.details = '';
     $scope.modd
 
-    $scope.markers = [];
     uploader.onCompleteItem = function(fileItem, response, status, headers) {
         var id = $scope.filteredMarkers.length + 1;
         
@@ -160,6 +160,7 @@ function HomeController($scope, $http, FileUploader, socket, $window, $filter) {
         });
 
         $scope.filteredMarkers = markers;
+        $scope.markers = markers;
     };
 
     socket.on('update-markers', function (data) {
@@ -167,7 +168,7 @@ function HomeController($scope, $http, FileUploader, socket, $window, $filter) {
     });
 
     $scope.$watch("searchUsername", function(searchUsername){
-        $scope.filteredMarkers = $filter("filter")($scope.filteredMarkers, {username: searchUsername});
+        $scope.filteredMarkers = $filter("filter")($scope.markers, {username: searchUsername});
         if (!$scope.filteredMarkers){
             return;
         }

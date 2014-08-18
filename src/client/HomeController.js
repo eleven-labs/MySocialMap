@@ -6,6 +6,7 @@ function HomeController($scope, $http, FileUploader, socket, $window, $filter) {
     });
     $scope.filteredMarkers = [];
     $scope.markers = [];
+    $scope.projectUseName = 'public';
 
     $scope.searchMap = function() {
         $scope.map = {
@@ -47,7 +48,8 @@ function HomeController($scope, $http, FileUploader, socket, $window, $filter) {
             'longitude': $scope.lon,
             'icon': '/images/resize/' + response,
             'real': '/images/' + response,
-            'username': username
+            'username': username,
+            'projectname': $scope.projectUseName
         };
 
         socket.emit('upload', { id: id, lat: $scope.lat, lon: $scope.lon, icon: '/images/resize/' + response, username: username, real: '/images/' + response});
@@ -118,9 +120,14 @@ function HomeController($scope, $http, FileUploader, socket, $window, $filter) {
         }
     };
 
+    $scope.$on('change.projectname', function (event, value) {
+      $scope.projectUseName = value;
+      $scope.usersList(value);
+    })
+
     
-    $scope.usersList = function() {
-        $http({method: 'GET', url: '/usersList'}).
+    $scope.usersList = function(projectname) {
+        $http({method: 'GET', url: '/usersList', params: { projectname: projectname}}).
             success(function(data, status, headers, config) {
                 var points = data.data;
                 var i = 1;
@@ -159,8 +166,9 @@ function HomeController($scope, $http, FileUploader, socket, $window, $filter) {
             };
         });
 
-        $scope.filteredMarkers = markers;
+
         $scope.markers = markers;
+        $scope.filteredMarkers = markers;
     };
 
     socket.on('update-markers', function (data) {

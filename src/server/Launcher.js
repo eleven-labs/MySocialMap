@@ -29,7 +29,8 @@ var imgSchema = new Schema({
     longitude: String,
     icon:      String,
     real:      String,
-    username:  String
+    username:  String,
+    projectname:  String
 });
 // User schema
 var User = new Schema({
@@ -38,7 +39,11 @@ var User = new Schema({
     is_admin: { type: Boolean, default: false },
     created: { type: Date, default: Date.now }
 });
-
+// Project Schemas
+var ProjectSchema = new Schema({
+    username: { type: String, required: true },
+    name: { type: String, required: true }
+});
 
 //Password verification
 User.methods.comparePassword = function(password, cb) {
@@ -51,6 +56,7 @@ User.methods.comparePassword = function(password, cb) {
 
 var Img = mongoose.model('img', imgSchema);
 var userModel = mongoose.model('User', User);
+var Project = mongoose.model('Project', ProjectSchema);
 
 //Socket IO
 io.sockets.on('connection', function (socket) {
@@ -73,7 +79,9 @@ app.get('/partials/:name', function (req, res) {
 });
 
 app.get('/usersList', function(req, res) {
-    Img.find({}, function (err, imgs) {
+    var projectname = req.query.projectname || 'public';
+
+    Img.find({projectname: projectname}, function (err, imgs) {
         var imgMap = [];
         imgs.forEach(function(img) {
             imgMap.push(img);
@@ -89,7 +97,8 @@ app.post('/save-point', function (req, res) {
         longitude: req.body.longitude,
         icon: req.body.icon,
         real: req.body.real,
-        username: req.body.username
+        username: req.body.username,
+        projectname: req.body.projectname
     });
 
     img.save(function (err) {
@@ -120,6 +129,31 @@ app.post('/file-upload', multipartMiddleware, function(req, res) {
                 });
         });
     });
+});
+
+app.post('/add-project', expressjwt({secret: secretToken}), function (req, res) {
+    var project = new Project({ 
+        name: req.body.name,
+        username: req.body.username
+    });
+
+    project.save(function (err) {
+      if (err) // ...
+        console.log('meow');
+    });
+});
+
+app.get('/projectList', expressjwt({secret: secretToken}), function(req, res) {
+    var username = req.query.username || '';
+
+    Project.find({username: username}, function (err, projects) {
+        var projectList = [];
+        projects.forEach(function(project) {
+            projectList.push(project);
+        });
+        
+        res.json(200, {'data': projectList});
+   });
 });
 
 //Logout

@@ -1,12 +1,16 @@
 'use strict';
 
 appServices.factory('AuthenticationService', function() {
-    var auth = {
-        isAuthenticated: false,
-        isAdmin: false
-    }
+    var isAuthenticated = false;
 
-    return auth;
+    return {
+        set : function (authenticated) {
+            isAuthenticated = authenticated;
+        },
+        get : function () {
+            return isAuthenticated;
+        }
+    }
 });
 
 appServices.factory('TokenInterceptor', function ($q, $window, $location, AuthenticationService) {
@@ -25,17 +29,17 @@ appServices.factory('TokenInterceptor', function ($q, $window, $location, Authen
 
         /* Set Authentication.isAuthenticated to true if 200 received */
         response: function (response) {
-            if (response != null && response.status == 200 && $window.sessionStorage.token && !AuthenticationService.isAuthenticated) {
-                AuthenticationService.isAuthenticated = true;
+            if (response != null && response.status == 200 && $window.sessionStorage.token && !AuthenticationService.get()) {
+                AuthenticationService.set(true);
             }
             return response || $q.when(response);
         },
 
         /* Revoke client authentication if 401 is received */
         responseError: function(rejection) {
-            if (rejection != null && rejection.status === 401 && ($window.sessionStorage.token || AuthenticationService.isAuthenticated)) {
+            if (rejection != null && rejection.status === 401 && ($window.sessionStorage.token || AuthenticationService.get())) {
                 delete $window.sessionStorage.token;
-                AuthenticationService.isAuthenticated = false;
+                AuthenticationService.set(false);
                 $location.path("/admin/login");
             }
 

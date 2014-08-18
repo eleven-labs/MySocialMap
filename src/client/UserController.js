@@ -1,8 +1,8 @@
 'use strict';
 
-function UserController($scope, $location, $window, UserService, AuthenticationService) {
+function UserController($scope, $location, $window, UserService, AuthenticationService, $rootScope) {
 
-    $scope.isAuthenticated = AuthenticationService.isAuthenticated;
+    $scope.isAuthenticated = AuthenticationService.get();
     $scope.displayregister = false;
     if ($window.sessionStorage.username === undefined) {
         $scope.username = 'Anonyme';
@@ -19,11 +19,12 @@ function UserController($scope, $location, $window, UserService, AuthenticationS
         if (username != null && password != null) {
 
             UserService.signIn(username, password).success(function(data) {
-                AuthenticationService.isAuthenticated = true;
+                AuthenticationService.set(true);
+                $rootScope.$broadcast('change.isAuthenticated', AuthenticationService.get());
+                $scope.isAuthenticated = AuthenticationService.get();
                 $window.sessionStorage.username = username;
                 $window.sessionStorage.token = data.token;
                 $scope.username = username;
-                $scope.isAuthenticated = AuthenticationService.isAuthenticated;
             }).error(function(status, data) {
                 console.log(status);
                 console.log(data);
@@ -32,14 +33,15 @@ function UserController($scope, $location, $window, UserService, AuthenticationS
     }
 
     $scope.logOut = function logOut() {
-        if (AuthenticationService.isAuthenticated) {
+        if (AuthenticationService.get()) {
             
             UserService.logOut().success(function(data) {
-                AuthenticationService.isAuthenticated = false;
+                AuthenticationService.set(false);
+                $rootScope.$broadcast('change.isAuthenticated', AuthenticationService.get());
+                $scope.isAuthenticated = AuthenticationService.get();
                 delete $window.sessionStorage.token;
                 delete $window.sessionStorage.username;
                 $scope.username = 'Anonyme';
-                $scope.isAuthenticated = AuthenticationService.isAuthenticated;
             }).error(function(status, data) {
                 console.log(status);
                 console.log(data);
@@ -48,7 +50,7 @@ function UserController($scope, $location, $window, UserService, AuthenticationS
     }
 
     $scope.register = function register(username, password, passwordConfirm) {
-        if (AuthenticationService.isAuthenticated) {
+        if (AuthenticationService.get()) {
             $location.path("/");
         }
         else {

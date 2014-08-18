@@ -2,16 +2,16 @@
     <form class="form-horizontal" role="form">
         <div class="form-group">
             <div class="col-md-3">
-                <input type="text" class="form-control" id="inputUsername" placeholder="Username" ng-model="register.username">
+                <input type="text" class="form-control" id="inputUsername" placeholder="Username" ng-model="registerForm.username">
             </div>
             <div class="col-md-3">
-                <input type="password" class="form-control" id="inputPassword" placeholder="Password" ng-model="register.password">
+                <input type="password" class="form-control" id="inputPassword" placeholder="Password" ng-model="registerForm.password">
             </div>
             <div class="col-md-3">
-                <input type="password" class="form-control" id="inputPasswordConfirmation" placeholder="Password" ng-model="register.passwordConfirmation">
+                <input type="password" class="form-control" id="inputPasswordConfirmation" placeholder="Password" ng-model="registerForm.passwordConfirmation">
             </div>
             <div class="col-md-3">
-                <button type="submit" class="btn btn-default" ng-click="register(register.username, register.password, register.passwordConfirmation)">Register</button>
+                <button type="submit" class="btn btn-default" ng-click="register(registerForm.username, registerForm.password, registerForm.passwordConfirmation)">Register</button>
             </div>
         </div>
     </form>

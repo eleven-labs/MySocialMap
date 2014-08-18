@@ -3,7 +3,7 @@
         <h3 class="panel-title">Connecté en tant que : {{ username }}</h3>
     </div>
     <div class="panel-body" ng-switch="isAuthenticated">
-         <div ng-switch-when="true" >
+        <div ng-switch-when="true" >
             <ng-include src="'partials/logout.html'"></ng-include>
         </div>
         <div ng-switch-default>

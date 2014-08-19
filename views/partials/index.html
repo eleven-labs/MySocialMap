@@ -3,7 +3,7 @@
         <h3 class="panel-title">Connecté en tant que : {{ username }}</h3>
     </div>
     <div class="panel-body" ng-switch="isAuthenticated">
-         <div ng-switch-when="true" >
+        <div ng-switch-when="true" >
             <ng-include src="'partials/logout.html'"></ng-include>
         </div>
         <div ng-switch-default>
@@ -21,16 +21,47 @@
     </div>
 </div>
 
+<div class="panel panel-primary" style="position:absolute;z-index:9000;left:10px;width:395px;top:10px" ng-controller="ProjectController" >
+    <div class="panel-heading">
+        <h3 class="panel-title">Vos projets</h3>
+    </div>
+    <div class="panel-body" ng-switch="isAuthenticated">
+        <div ng-switch-when="true" >
+            <ul>
+                <li>
+                    <a ng-click="useProject('public')">Public</a> <span ng-if="'public' == projectUse">In progress</span>
+                </li>
+                <li ng-repeat="project in projectList">
+                    <a ng-click="useProject(project.name)">{{project.name}}</a> <span ng-if="project.name == projectUse">In progress</span>
+                </li>
+            </ul>
+            <div class="form-group">
+                <div class="col-md-6">
+                    <input type="text" class="form-control" id="input_new_project" placeholder="New project" ng-model="projectName">
+                </div>
+                <div class="col-md-6">
+                    <button type="button" class="btn btn-success btn-s" ng-click='newProject(projectName)'>
+                        Envoyer
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div ng-switch-default>
+            <span>Pour créer un projet, créé un compte</span>
+        </div>
+    </div>
+</div>
+
 <div class="panel panel-primary" style="position:absolute;z-index:9000;right:10px;top:150px;width:395px">
     <div class="panel-heading">
         <h3 class="panel-title">Search image by username</h3>
     </div>
     <div class="panel-body">
-        <input type="test" class="form-control" id="inputSearch" placeholder="Search by username" ng-model="searchUsername">
+        <input type="text" class="form-control" id="inputSearch" placeholder="Search by username" ng-model="searchUsername">
     </div>
 </div>
 
-<div class="panel panel-primary" style="position:absolute;z-index:9000;right:10px;top:270px">
+<div class="panel panel-primary" style="position:absolute;z-index:9000;right:10px;top:280px">
     <div class="panel-heading">
         <h3 class="panel-title">Ajouter votre image</h3>
     </div>

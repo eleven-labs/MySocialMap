@@ -4,30 +4,32 @@ MySocialMap
 [![devDependency Status](https://david-dm.org/eleven-labs/MySocialMap/dev-status.svg)](https://david-dm.org/eleven-labs/MySocialMap#info=devDependencies)
 
 
-One page web application for display all Foursquare check-ins in google Map, with Photo or Status Facebook/Twitter/Instagram.
+One page web application to display all Foursquare check-ins on a Google Map, with Photos or Statuses from Facebook/Twitter/Instagram.
 
-This app is develop with all news JS technologie, node, angular, gulp, bower, bootstrap
+This app is developped with all new JS tools, node, angular, gulp, bower, bootstrap.
 
-# Install the project
+## Install the project
 
-For install project it's easy
-
-Install Node and after
+First make sure node, npm and gulp are installed globally.
+Then execute the following command:
 
 ```
-npm install (bower instal is in this install)
+npm install
 ```
+(`bower install` is included in this step.)
 
-For launch the server 
+## Launch the server
 
 ```
 gulp launch-server
 ````
 
-For launch the client
+## Launch the client
 
 ```
 gulp launch-client
 ```
 
-After that go to http://localhost:9595
+## Enjoy!
+
+Then just go to: [http://localhost:9595](http://localhost:9595)

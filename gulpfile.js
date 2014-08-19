@@ -6,6 +6,7 @@ var rename    = require('gulp-rename');
 var gutil     = require('gulp-util');
 var minifyCSS = require('gulp-minify-css');
 var nodemon   = require('gulp-nodemon');
+var order = require("gulp-order");
 
 var srcDir  = './src/';
 var cssDir  = './web/css/';
@@ -35,9 +36,9 @@ var recipes = {
 };
 
 var onError = function (err) {
-  gutil.beep();
-  console.log(err.toString());
-  this.emit('end');
+    gutil.beep();
+    console.log(err.toString());
+    this.emit('end');
 };
 
 gulp.task('jshint', function() {
@@ -47,15 +48,22 @@ gulp.task('jshint', function() {
 });
 
 gulp.task('server', ['jshint'], function() {
-    gulp.src(recipes.server.files)
+    var files = recipes.server.files;
+    files.push(recipes.server.main);
+
+    gulp.src(files)
         .pipe(concat(recipes.server.name))
+        .pipe(order(files))
         .pipe(uglify())
         .pipe(gulp.dest(recipes.server.path));
 });
 
 gulp.task('nodemon', ['server'], function () {
+    var files = recipes.server.files;
+    files.push(recipes.server.main);
+
     nodemon({
-        watch: recipes.server.files,
+        watch: files,
         ext: 'js',
         script: 'bin/server.js',
         restartable: "rs"

@@ -1,9 +1,8 @@
-'use strict';
-
 function UserController($scope, $location, $window, UserService, AuthenticationService, $rootScope) {
 
     $scope.isAuthenticated = AuthenticationService.get();
     $scope.displayregister = false;
+
     if ($window.sessionStorage.username === undefined) {
         $scope.username = 'Anonyme';
     } else {
@@ -12,12 +11,11 @@ function UserController($scope, $location, $window, UserService, AuthenticationS
 
     $scope.displayRegister = function displayRegister() {
         $scope.displayregister = !$scope.displayregister;
-    }
+    };
 
     //Admin User Controller (signIn, logOut)
     $scope.signIn = function signIn(username, password) {
-        if (username != null && password != null) {
-
+        if (username !== null && password !== null) {
             UserService.signIn(username, password).success(function(data) {
                 AuthenticationService.set(true);
                 $rootScope.$broadcast('change.isAuthenticated', AuthenticationService.get());
@@ -30,11 +28,10 @@ function UserController($scope, $location, $window, UserService, AuthenticationS
                 console.log(data);
             });
         }
-    }
+    };
 
     $scope.logOut = function logOut() {
         if (AuthenticationService.get()) {
-            
             UserService.logOut().success(function(data) {
                 AuthenticationService.set(false);
                 $rootScope.$broadcast('change.isAuthenticated', AuthenticationService.get());
@@ -47,7 +44,7 @@ function UserController($scope, $location, $window, UserService, AuthenticationS
                 console.log(data);
             });
         }
-    }
+    };
 
     $scope.register = function register(username, password, passwordConfirmation) {
         if (AuthenticationService.get()) {
@@ -61,5 +58,5 @@ function UserController($scope, $location, $window, UserService, AuthenticationS
                 console.log(data);
             });
         }
-    }
+    };
 }

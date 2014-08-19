@@ -1,14 +1,15 @@
-'use strict';
-
 function ProjectController($scope, $window, $http, AuthenticationService, $rootScope) {
     $scope.isAuthenticated = AuthenticationService.get();
-    
-    $scope.$on('change.isAuthenticated', function (event, value) {
-        $scope.isAuthenticated = value;
-    })
-
     $scope.projectUse = '';
     $scope.projectList = [];
+
+    $scope.$on('change.isAuthenticated', function (event, value) {
+        $scope.isAuthenticated = value;
+    });
+
+    $scope.$watch('isAuthenticated', function() {
+        $scope.projectListFn();
+    });
 
     $scope.useProject = function(projectName) {
         $scope.projectUse = projectName;
@@ -16,10 +17,11 @@ function ProjectController($scope, $window, $http, AuthenticationService, $rootS
     };
 
     $scope.newProject = function(projectName) {
+        var username = '';
         if ($window.sessionStorage.username === undefined) {
-            var username = 'Anonyme';
+            username = 'Anonyme';
         } else {
-            var username = $window.sessionStorage.username;
+            username = $window.sessionStorage.username;
         }
 
         var data = {
@@ -37,10 +39,13 @@ function ProjectController($scope, $window, $http, AuthenticationService, $rootS
 
     $scope.projectListFn = function() {
         if ($scope.isAuthenticated === true) {
+
+            var username = '';
+
             if ($window.sessionStorage.username === undefined) {
-                var username = 'Anonyme';
+                username = 'Anonyme';
             } else {
-                var username = $window.sessionStorage.username;
+                username = $window.sessionStorage.username;
             }
 
             $http({method: 'GET', url: '/projectList?username=' + username }).
@@ -60,8 +65,6 @@ function ProjectController($scope, $window, $http, AuthenticationService, $rootS
     };
 
 
-    $scope.$watch('isAuthenticated', function() {
-        $scope.projectListFn();
-    });
-    
+
+
 }

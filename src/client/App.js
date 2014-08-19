@@ -1,5 +1,3 @@
-'use strict';
-
 var app = angular.module('socialMapApp', ['services', 'google-maps', 'ngRoute', 'angularFileUpload', 'ngAutocomplete', 'btford.socket-io']);
 
 var appServices = angular.module('services', []);
@@ -11,7 +9,7 @@ options.api.base_url = "";
 app.factory('socket', function (socketFactory) {
         return socketFactory({
             ioSocket: io.connect()
-        })
+        });
     })
     .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
         $routeProvider.
@@ -45,8 +43,7 @@ app.config(function ($httpProvider) {
 app.run(function($rootScope, $location, $window, AuthenticationService) {
     $rootScope.$on("$routeChangeStart", function(event, nextRoute, currentRoute) {
         //redirect only if both isAuthenticated is false and no token is set
-        if (nextRoute != null && nextRoute.access != null && nextRoute.access.requiredAuthentication 
-            && !AuthenticationService.isAuthenticated && !$window.sessionStorage.token) {
+        if (nextRoute !== null && nextRoute.access !== null && nextRoute.access.requiredAuthentication && !AuthenticationService.get() && !$window.sessionStorage.token) {
 
             $location.path("/login");
         }

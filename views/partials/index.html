@@ -27,24 +27,7 @@
     </div>
     <div class="panel-body" ng-switch="isAuthenticated">
         <div ng-switch-when="true" >
-            <ul>
-                <li>
-                    <a ng-click="useProject('public')">Public</a> <span ng-if="'public' == projectUse">In progress</span>
-                </li>
-                <li ng-repeat="project in projectList">
-                    <a ng-click="useProject(project.name)">{{project.name}}</a> <span ng-if="project.name == projectUse">In progress</span>
-                </li>
-            </ul>
-            <div class="form-group">
-                <div class="col-md-6">
-                    <input type="text" class="form-control" id="input_new_project" placeholder="New project" ng-model="projectName">
-                </div>
-                <div class="col-md-6">
-                    <button type="button" class="btn btn-success btn-s" ng-click='newProject(projectName)'>
-                        Envoyer
-                    </button>
-                </div>
-            </div>
+            <ng-include src="'partials/project.html'"></ng-include>
         </div>
         <div ng-switch-default>
             <span>Pour créer un projet, créé un compte</span>

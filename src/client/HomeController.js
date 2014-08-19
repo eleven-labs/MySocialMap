@@ -1,68 +1,28 @@
-'use strict';
-
 function HomeController($scope, $http, FileUploader, socket, $window, $filter) {
-    var uploader = $scope.uploader = new FileUploader({
-        url: 'file-upload'
-    });
     $scope.filteredMarkers = [];
     $scope.markers = [];
     $scope.projectUseName = 'public';
-
-    $scope.searchMap = function() {
-        $scope.map = {
-            center: {
-                latitude: $scope.details.geometry.location.lat(),
-                longitude: $scope.details.geometry.location.lng()
-            },
-            zoom: 15,
-        };
-
-        $scope.marker = {
-            id: 1,
-            coords: {
-                latitude: $scope.details.geometry.location.lat(),
-                longitude: $scope.details.geometry.location.lng()
-            },
-            show: true
-        };
-
-        $scope.lat = $scope.details.geometry.location.lat();
-        $scope.lon = $scope.details.geometry.location.lng();
-    };
-
     $scope.options1 = null;
     $scope.details = '';
-    $scope.modd
-
-    uploader.onCompleteItem = function(fileItem, response, status, headers) {
-        var id = $scope.filteredMarkers.length + 1;
-        
-        if ($window.sessionStorage.username === undefined) {
-            var username = 'Anonyme';
-        } else {
-            var username = $window.sessionStorage.username;
-        }
-
-        var data = {
-            'latitude': $scope.lat,
-            'longitude': $scope.lon,
-            'icon': '/images/resize/' + response,
-            'real': '/images/' + response,
-            'username': username,
-            'projectname': $scope.projectUseName
-        };
-
-        socket.emit('upload', { id: id, lat: $scope.lat, lon: $scope.lon, icon: '/images/resize/' + response, username: username, real: '/images/' + response});
-
-        $http.post('/save-point', data).success(function(data, status, headers, config) {
-          // this callback will be called asynchronously
-          // when the response is available
-        });
-        uploader.clearQueue();
+    $scope.map = {
+        center: {
+            latitude: 45,
+            longitude: -73
+        },
+        zoom: 8,
     };
-    
-    console.info('uploader', uploader);
-    
+    $scope.marker = {
+        id: 1,
+        coords: {
+            latitude: 49,
+            longitude: 2.56
+        },
+        show: true
+    };
+
+    var markerToClose = null;
+
+    // Init map with geolocalisation
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
             $scope.map = {
@@ -89,24 +49,56 @@ function HomeController($scope, $http, FileUploader, socket, $window, $filter) {
         $scope.error = 'Impossible';
     }
 
-    $scope.map = {
-        center: {
-            latitude: 45,
-            longitude: -73
-        },
-        zoom: 8,
+    var uploader = $scope.uploader = new FileUploader({
+        url: 'file-upload'
+    });
+
+    uploader.onCompleteItem = function(fileItem, response, status, headers) {
+        var id = $scope.filteredMarkers.length + 1;
+        var username = '';
+        if ($window.sessionStorage.username === undefined) {
+            username = 'Anonyme';
+        } else {
+            username = $window.sessionStorage.username;
+        }
+
+        var data = {
+            'latitude': $scope.lat,
+            'longitude': $scope.lon,
+            'icon': '/images/resize/' + response,
+            'real': '/images/' + response,
+            'username': username,
+            'projectname': $scope.projectUseName
+        };
+
+        socket.emit('upload', { id: id, lat: $scope.lat, lon: $scope.lon, icon: '/images/resize/' + response, username: username, real: '/images/' + response});
+
+        $http.post('/save-point', data).success(function(data, status, headers, config) {});
+
+        uploader.clearQueue();
     };
 
-    $scope.marker = {
-        id: 1,
-        coords: {
-            latitude: 49,
-            longitude: 2.56
-        },
-        show: true
-    };
+    $scope.searchMap = function() {
+        $scope.map = {
+            center: {
+                latitude: $scope.details.geometry.location.lat(),
+                longitude: $scope.details.geometry.location.lng()
+            },
+            zoom: 15,
+        };
 
-    var markerToClose = null;
+        $scope.marker = {
+            id: 1,
+            coords: {
+                latitude: $scope.details.geometry.location.lat(),
+                longitude: $scope.details.geometry.location.lng()
+            },
+            show: true
+        };
+
+        $scope.lat = $scope.details.geometry.location.lat();
+        $scope.lon = $scope.details.geometry.location.lng();
+    };
 
     $scope.onMarkerClicked = function (marker) {
         markerToClose = marker;
@@ -121,11 +113,10 @@ function HomeController($scope, $http, FileUploader, socket, $window, $filter) {
     };
 
     $scope.$on('change.projectname', function (event, value) {
-      $scope.projectUseName = value;
-      $scope.usersList(value);
-    })
+        $scope.projectUseName = value;
+        $scope.usersList(value);
+    });
 
-    
     $scope.usersList = function(projectname) {
         $http({method: 'GET', url: '/usersList', params: { projectname: projectname}}).
             success(function(data, status, headers, config) {
@@ -167,13 +158,10 @@ function HomeController($scope, $http, FileUploader, socket, $window, $filter) {
         });
 
         $scope.markers = markers;
-        
-        if (markers.length == 0)
-        {
-          $scope.filteredMarkers = [];  
-        }
-        else
-        {
+
+        if (markers.length === 0) {
+            $scope.filteredMarkers = [];
+        } else {
             $scope.filteredMarkers = markers;
         }
     };
@@ -182,14 +170,14 @@ function HomeController($scope, $http, FileUploader, socket, $window, $filter) {
         $scope.usersList($scope.projectUseName);
     });
 
-    $scope.$watch("searchUsername", function(searchUsername){
+    $scope.$watch("searchUsername", function(searchUsername) {
         $scope.filteredMarkers = $filter("filter")($scope.markers, {username: searchUsername});
-        if (!$scope.filteredMarkers){
+        if (!$scope.filteredMarkers) {
             return;
         }
     });
 
-    $scope.events =  {
+    $scope.events = {
         click: function (mapModel, eventName, originalEventArgs) {
             // 'this' is the directive's scope
             var e = originalEventArgs[0];

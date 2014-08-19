@@ -1,7 +1,13 @@
 {
     "name": "server.js",
     "path": "bin/",
+    "main": "src/server/Launcher.js",
     "files": [
-        "src/server/**/**/*.js"
+        "src/server/config/config.js",
+        "src/server/mongo/models.js",
+        "src/server/controllers/authentification.js",
+        "src/server/controllers/project.js",
+        "src/server/controllers/marker.js",
+        "src/server/controllers/socket.js"
     ]
 }

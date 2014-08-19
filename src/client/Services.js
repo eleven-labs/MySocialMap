@@ -1,5 +1,3 @@
-'use strict';
-
 appServices.factory('AuthenticationService', function() {
     var isAuthenticated = false;
 
@@ -10,7 +8,7 @@ appServices.factory('AuthenticationService', function() {
         get : function () {
             return isAuthenticated;
         }
-    }
+    };
 });
 
 appServices.factory('TokenInterceptor', function ($q, $window, $location, AuthenticationService) {
@@ -29,7 +27,7 @@ appServices.factory('TokenInterceptor', function ($q, $window, $location, Authen
 
         /* Set Authentication.isAuthenticated to true if 200 received */
         response: function (response) {
-            if (response != null && response.status == 200 && $window.sessionStorage.token && !AuthenticationService.get()) {
+            if (response !== null && response.status == 200 && $window.sessionStorage.token && !AuthenticationService.get()) {
                 AuthenticationService.set(true);
             }
             return response || $q.when(response);
@@ -37,7 +35,7 @@ appServices.factory('TokenInterceptor', function ($q, $window, $location, Authen
 
         /* Revoke client authentication if 401 is received */
         responseError: function(rejection) {
-            if (rejection != null && rejection.status === 401 && ($window.sessionStorage.token || AuthenticationService.get())) {
+            if (rejection !== null && rejection.status === 401 && ($window.sessionStorage.token || AuthenticationService.get())) {
                 delete $window.sessionStorage.token;
                 AuthenticationService.set(false);
                 $location.path("/admin/login");
@@ -61,5 +59,5 @@ appServices.factory('UserService', function ($http) {
         register: function(username, password, passwordConfirmation) {
             return $http.post(options.api.base_url + '/user/register', {username: username, password: password, passwordConfirmation: passwordConfirmation });
         }
-    }
+    };
 });

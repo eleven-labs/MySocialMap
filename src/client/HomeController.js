@@ -166,13 +166,20 @@ function HomeController($scope, $http, FileUploader, socket, $window, $filter) {
             };
         });
 
-
         $scope.markers = markers;
-        $scope.filteredMarkers = markers;
+        
+        if (markers.length == 0)
+        {
+          $scope.filteredMarkers = [];  
+        }
+        else
+        {
+            $scope.filteredMarkers = markers;
+        }
     };
 
     socket.on('update-markers', function (data) {
-        $scope.usersList();
+        $scope.usersList($scope.projectUseName);
     });
 
     $scope.$watch("searchUsername", function(searchUsername){

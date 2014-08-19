@@ -150,8 +150,8 @@ function HomeController($scope, $http, FileUploader, socket, $window, $filter) {
                 $scope.updateMarkers(markers);
             }).
             error(function(data, status, headers, config) {
-          // called asynchronously if an error occurs
-          // or server returns response with an error status.
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
             });
     };
 
@@ -205,7 +205,7 @@ function HomeController($scope, $http, FileUploader, socket, $window, $filter) {
                     longitude: lon
                 },
             };
-              //scope apply required because this event handler is outside of the angular domain
+            //scope apply required because this event handler is outside of the angular domain
             $scope.$apply();
         }
     };

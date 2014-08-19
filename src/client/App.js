@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('socialMapApp',['services', 'google-maps', 'ngRoute', 'angularFileUpload', 'ngAutocomplete', 'btford.socket-io']);
+var app = angular.module('socialMapApp', ['services', 'google-maps', 'ngRoute', 'angularFileUpload', 'ngAutocomplete', 'btford.socket-io']);
 
 var appServices = angular.module('services', []);
 

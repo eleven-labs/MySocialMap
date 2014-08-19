@@ -49,12 +49,12 @@ function UserController($scope, $location, $window, UserService, AuthenticationS
         }
     }
 
-    $scope.register = function register(username, password, passwordConfirm) {
+    $scope.register = function register(username, password, passwordConfirmation) {
         if (AuthenticationService.get()) {
             $location.path("/");
         }
         else {
-            UserService.register(username, password, passwordConfirm).success(function(data) {
+            UserService.register(username, password, passwordConfirmation).success(function(data) {
                 $location.path("/login");
             }).error(function(status, data) {
                 console.log(status);

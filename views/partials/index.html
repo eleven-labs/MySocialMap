@@ -35,6 +35,22 @@
     </div>
 </div>
 
+<div class="panel panel-primary" style="position:absolute;z-index:9000;left:10px;width:395px;top:160px" ng-controller="FoursquareController" >
+    <div class="panel-heading">
+        <h3 class="panel-title">Foursquare</h3>
+    </div>
+    <div class="panel-body"  ng-switch="foursquare_username">
+        <div ng-switch-when="" >
+             <a href='/login'>Connect to Foursquare</a>
+        </div>
+        <div ng-switch-default>
+            <span>{{ foursquare_username }}</span>
+            <button type="button" class="btn btn-primary" ng-click='getCheckins()'>Checkins</button>
+
+        </div>
+    </div>
+</div>
+
 <div class="panel panel-primary" style="position:absolute;z-index:9000;right:10px;top:150px;width:395px">
     <div class="panel-heading">
         <h3 class="panel-title">Search image by username</h3>
@@ -82,6 +98,10 @@
                 <img src="{{ real }}" style="max-width:400px;max-height:400px"/>
             </div>
         </windows>
+    </markers>
+
+
+    <markers models="foursquareMarkers" coords="'self'" fit='true' doCluster="true" >
     </markers>
 
     <marker coords='marker.coords' icon='marker.icon' idKey="marker.id">

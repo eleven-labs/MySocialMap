@@ -1,5 +1,6 @@
 function HomeController($scope, $http, FileUploader, socket, $window, $filter) {
     $scope.filteredMarkers = [];
+    $scope.foursquareMarkers = [];
     $scope.markers = [];
     $scope.projectUseName = 'public';
     $scope.options1 = null;
@@ -111,6 +112,17 @@ function HomeController($scope, $http, FileUploader, socket, $window, $filter) {
             window.alert("Cluster Models: clusterModels: " + JSON.stringify(clusterModels));
         }
     };
+
+    $scope.$on('add.foursquareMarkers', function (event, value) {
+        var id = $scope.foursquareMarkers.length;
+        var point = {
+            id: id,
+            latitude: value.lat,
+            longitude: value.lng,
+            title: value.name
+        };
+        $scope.foursquareMarkers.push(point);
+    });
 
     $scope.$on('change.projectname', function (event, value) {
         $scope.projectUseName = value;

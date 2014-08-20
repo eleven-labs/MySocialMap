@@ -46,7 +46,8 @@
     "mongoose": "~3.8.*",
     "socket.io": "~1.0.*",
     "express-jwt": "~0.2.*",
-    "jsonwebtoken": "~0.4.*"
+    "jsonwebtoken": "~0.4.*",
+    "node-foursquare": "~0.2.*"
   },
   "scripts": {
     "install": "bower install"

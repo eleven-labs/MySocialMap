@@ -45,7 +45,8 @@
         </div>
         <div ng-switch-default>
             <span>{{ foursquare_username }}</span>
-            <button type="button" class="btn btn-primary" ng-click='getCheckins()'>Checkins</button>
+
+            <button  ng-if="allcheck" type="button" class="btn btn-primary" ng-click='getCheckins()'>{{ advanced }}</button>
 
         </div>
     </div>
@@ -101,11 +102,18 @@
     </markers>
 
 
-    <markers models="foursquareMarkers" coords="'self'" fit='true' doCluster="true" >
+    <markers models="foursquareMarkers" coords="'self'" fit='true' doCluster="true" click="'onClickFoursquare'" clusterEvents="clusterEventsFoursquare">
     </markers>
+    <window show="foursquareSelected.show" coords="foursquareSelected">
+        {{ foursquareSelected.title }}
+    </window>
 
     <marker coords='marker.coords' icon='marker.icon' idKey="marker.id">
     </marker>
+
+    <window show="windowFoursquare.show" coords="windowFoursquare.coords">
+        {{ windowFoursquare.title }}
+    </window>
 </google-map>
 
 

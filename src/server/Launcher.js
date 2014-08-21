@@ -73,7 +73,7 @@ app.get('/foursquare', function(req, res) {
 });
 
 app.get('/checkins', function (req, res) {
-    var limit = req.query.limit || '10';
+    var limit = req.query.limit || '100';
     var offset = req.query.offset || '0';
 
     foursquare.Users.getCheckins('self', {'limit': limit, 'offset': offset }, foursquareToken, function(error, results) {

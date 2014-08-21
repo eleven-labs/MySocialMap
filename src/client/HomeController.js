@@ -22,6 +22,7 @@ function HomeController($scope, $http, FileUploader, socket, $window, $filter) {
     };
 
     var markerToClose = null;
+    var markerToCloseFoursquare = null;
 
     // Init map with geolocalisation
     if (navigator.geolocation) {
@@ -113,16 +114,46 @@ function HomeController($scope, $http, FileUploader, socket, $window, $filter) {
         }
     };
 
+    $scope.foursquareSelected = {show: false};
+    $scope.windowFoursquare = {};
+    $scope.windowFoursquare.show = false;
+    $scope.windowFoursquare.title = '';
+
+    $scope.clusterEventsFoursquare = {
+        click: function (cluster, clusterModels) {
+            _.each(clusterModels, function (clusterModel) {
+                $scope.windowFoursquare.coords = {
+                    latitude: clusterModel.latitude,
+                    longitude: clusterModel.longitude
+                };
+
+                $scope.windowFoursquare.title = clusterModel.title;
+            });
+
+            $scope.windowFoursquare.show = true;
+        }
+    };
+
+    var points = [];
     $scope.$on('add.foursquareMarkers', function (event, value) {
-        var id = $scope.foursquareMarkers.length;
+        var id = points.length;
         var point = {
             id: id,
             latitude: value.lat,
             longitude: value.lng,
-            title: value.name
+            title: value.name,
+            showWindow: false
         };
-        $scope.foursquareMarkers.push(point);
+
+        point.onClickFoursquare = function() {
+            $scope.foursquareSelected.show = true;
+            $scope.foursquareSelected = point;
+        };
+
+        points.push(point);
+        $scope.foursquareMarkers = points;
     });
+
 
     $scope.$on('change.projectname', function (event, value) {
         $scope.projectUseName = value;

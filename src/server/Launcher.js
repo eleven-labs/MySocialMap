@@ -41,7 +41,7 @@ app.get('/partials/:name', function (req, res) {
     res.sendfile(file);
 });
 
-app.get('/login', function(req, res) {
+app.get('/loginfoursquare', function(req, res) {
   res.writeHead(303, { 'location': foursquare.getAuthClientRedirectUrl() });
   res.end();
 });

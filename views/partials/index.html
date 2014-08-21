@@ -41,7 +41,9 @@
     </div>
     <div class="panel-body"  ng-switch="foursquare_username">
         <div ng-switch-when="" >
-             <a href='/login'>Connect to Foursquare</a>
+            <a class="login-button" href="https://foursquare.com/oauth2/authenticate?client_id=Q3PHWSWTNQHUYVX5VPDEWVD0ZUY3IYL2F00V5BP3IOH5GLO4&response_type=code&redirect_uri=http://jjalouzot.socialmap.dev-php2.ger-multimedia.com/callback">
+            <img src="https://playfoursquare.s3.amazonaws.com/press/logo/connect-blue.png">
+        </a>
         </div>
         <div ng-switch-default>
             <span>{{ foursquare_username }}</span>

@@ -14,7 +14,7 @@
     "bootstrap": "~3.2.*",
     "angular": "~1.2.*",
     "angular-route": "~1.2.*",
-    "angular-google-maps": "~1.2.*",
+    "angular-google-maps": "#master",
     "angular-file-upload": "~1.0.*",
     "ngAutocomplete": "~1.0.*",
     "angular-socket-io": "~0.6.0"

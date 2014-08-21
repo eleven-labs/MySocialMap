@@ -35,6 +35,25 @@
     </div>
 </div>
 
+<div class="panel panel-primary" style="position:absolute;z-index:9000;left:10px;width:395px;top:160px" ng-controller="FoursquareController" >
+    <div class="panel-heading">
+        <h3 class="panel-title">Foursquare</h3>
+    </div>
+    <div class="panel-body"  ng-switch="foursquare_username">
+        <div ng-switch-when="" >
+            <a class="login-button" href="https://foursquare.com/oauth2/authenticate?client_id=Q3PHWSWTNQHUYVX5VPDEWVD0ZUY3IYL2F00V5BP3IOH5GLO4&response_type=code&redirect_uri=http://jjalouzot.socialmap.dev-php2.ger-multimedia.com/callback">
+            <img src="https://playfoursquare.s3.amazonaws.com/press/logo/connect-blue.png">
+        </a>
+        </div>
+        <div ng-switch-default>
+            <span>{{ foursquare_username }}</span>
+
+            <button  ng-if="allcheck" type="button" class="btn btn-primary" ng-click='getCheckins()'>{{ advanced }}</button>
+
+        </div>
+    </div>
+</div>
+
 <div class="panel panel-primary" style="position:absolute;z-index:9000;right:10px;top:150px;width:395px">
     <div class="panel-heading">
         <h3 class="panel-title">Search image by username</h3>
@@ -84,8 +103,19 @@
         </windows>
     </markers>
 
+
+    <markers models="foursquareMarkers" coords="'self'" fit='true' doCluster="true" click="'onClickFoursquare'" clusterEvents="clusterEventsFoursquare">
+    </markers>
+    <window show="foursquareSelected.show" coords="foursquareSelected">
+        {{ foursquareSelected.title }}
+    </window>
+
     <marker coords='marker.coords' icon='marker.icon' idKey="marker.id">
     </marker>
+
+    <window show="windowFoursquare.show" coords="windowFoursquare.coords">
+        {{ windowFoursquare.title }}
+    </window>
 </google-map>
 
 

@@ -6,3 +6,4 @@ io.sockets.on('connection', function (socket) {
         io.sockets.emit('update-markers', {id: data.id, lat: data.lat, lon: data.lon, icon: data.icon, username: data.username, real: data.real });
     });
 });
+

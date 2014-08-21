@@ -38,14 +38,14 @@
     "gulp-order":  "~1.1.*"
   },
   "dependencies": {
-    "express": "~4.0.0",
+    "express": "~4.8.5",
     "method-override": "~2.1.*",
     "body-parser": "~1.6.*",
-    "connect-multiparty": "~1.1.*",
+    "connect-multiparty": "~1.2.1",
     "gm": "~1.16.*",
     "mongoose": "~3.8.*",
     "socket.io": "~1.0.*",
-    "express-jwt": "~0.2.*",
+    "express-jwt": "~0.3.1",
     "jsonwebtoken": "~0.4.*",
     "node-foursquare": "~0.2.*"
   },
